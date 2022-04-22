@@ -59,4 +59,19 @@ def automate_matches(test):
             if(fuzzy_searches(keys,text,.9)):
                 test["Python Matches"][i]=1
     return test
-automate_matches(test).to_csv("temp.csv")
+
+## our current goal is to make sure that cases with the matches have the same id econ values. 
+def match_ids_econ(matches, data):
+    """""
+    matches ids of comfirmed ties for the econ dataset 
+    args:
+        1. mathces- a data set with the validated matches
+        2.  data- the orignal data
+    """
+    d={}
+    for i in range(len(matches)):
+        if(matches["Autmated Matches"][i] and matches["nombreapellido_1"][i] not in d.keys()):
+            d[matches["nombreapellido_2"][i]]=matches["id_econ1"][i]
+    for i in range(len(data)):
+        if(data["nombreapellido"][i] in d.keys()):
+            data["id_eco"][i]=d[data["nombreapellido"][i]]
